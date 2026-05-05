@@ -10,8 +10,6 @@ services:
       interval: 2s
       timeout: 5s
       retries: 30
-    ports:
-      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -20,7 +18,7 @@ services:
       context: ..
       dockerfile: Dockerfile
     ports:
-      - "3100:3100"
+      - "10004:3100"
     environment:
       DATABASE_URL: postgres://paperclip:paperclip@db:5432/paperclip
       PORT: "3100"
