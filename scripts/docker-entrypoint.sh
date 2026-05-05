@@ -11,7 +11,12 @@ cd /app
 # Run onboard if the instance config doesn't exist
 if [ ! -f "/paperclip/instances/default/config.json" ]; then
   echo "Initializing Paperclip instance..."
-  gosu node pnpm paperclipai onboard --non-interactive
+  # Set required environment variables for non-interactive onboard
+  export PAPERCLIP_INSTANCE_ID=${PAPERCLIP_INSTANCE_ID:-default}
+  export PAPERCLIP_HOME=${PAPERCLIP_HOME:-/paperclip}
+
+  # Run onboard without flags (relies on env vars)
+  gosu node pnpm paperclipai onboard
 fi
 
 # Start the server
