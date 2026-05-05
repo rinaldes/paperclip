@@ -68,6 +68,8 @@ export function deriveAuthTrustedOrigins(config: Config, opts?: { listenPort?: n
   if (baseUrl) {
     try {
       trustedOrigins.add(new URL(baseUrl).origin);
+      trustedOrigins.add('http://localhost:10004');
+      trustedOrigins.add('http://127.0.0.1:10004');
     } catch {
       // Better Auth will surface invalid base URL separately.
     }
@@ -127,12 +129,7 @@ export function createBetterAuthInstance(db: Db, config: Config, trustedOrigins:
     delete (authConfig as { baseURL?: string }).baseURL;
   }
 
-return betterAuth(authConfig, {
-    trustedOrigins: [
-      'http://localhost:10004',
-      'http://127.0.0.1:10004',
-    ],
-  });}
+return betterAuth(authConfig);}
 
 export function createBetterAuthHandler(auth: BetterAuthInstance): RequestHandler {
   const handler = toNodeHandler(auth);
