@@ -127,8 +127,12 @@ export function createBetterAuthInstance(db: Db, config: Config, trustedOrigins:
     delete (authConfig as { baseURL?: string }).baseURL;
   }
 
-  return betterAuth(authConfig);
-}
+return betterAuth(authConfig, {
+    trustedOrigins: [
+      'http://localhost:10004',
+      'http://127.0.0.1:10004',
+    ],
+  });}
 
 export function createBetterAuthHandler(auth: BetterAuthInstance): RequestHandler {
   const handler = toNodeHandler(auth);
