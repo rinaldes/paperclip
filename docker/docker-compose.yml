@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17-alpine
+    image: postgres:18.3-alpine
     environment:
       POSTGRES_USER: paperclip
       POSTGRES_PASSWORD: paperclip
@@ -12,13 +12,14 @@ services:
       retries: 30
     volumes:
       - pgdata:/var/lib/postgresql/data
-
   server:
     build:
       context: ..
       dockerfile: Dockerfile
     ports:
       - "10004:3100"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       DATABASE_URL: postgres://paperclip:paperclip@db:5432/paperclip
       PORT: "3100"
@@ -32,7 +33,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
 volumes:
   pgdata:
   paperclip-data:
